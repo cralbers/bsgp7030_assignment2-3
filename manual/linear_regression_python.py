@@ -15,8 +15,8 @@ y = input("Enter column name for y values: ")
 # import csv file into pandas df
 df = pd.read_csv(filename)
 
-# make a scatter plot of Salary (y) as a fx of YearsExperience (x)
-plt.scatter(df[x], df[y], color='purple')
+# # make a scatter plot of Salary (y) as a fx of YearsExperience (x)
+# plt.scatter(df[x], df[y], color='purple')
 
 # fit a linear regression model to the data (salary as a fx of years of experience)
 model = LinearRegression().fit(df[[x]], df[[y]])
@@ -25,8 +25,8 @@ model = LinearRegression().fit(df[[x]], df[[y]])
 # graph the raw data and the calculated regression line
 plt.scatter(df[x], df[y], color='purple') # graph data from original table
 plt.plot(df[x], model.predict(df[[x]]), color='green') # add in calculated linear regression using model previously generated
-plt.title('Salary vs Experience')
-plt.xlabel('Years of Experience')
+plt.title(f'{y} vs {x}')
+plt.xlabel(x)
 plt.ylabel(y)
 plt.savefig('linear_regression_python_output.png', dpi=300, bbox_inches='tight')
 # plt.show()

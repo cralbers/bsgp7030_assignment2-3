@@ -1,6 +1,6 @@
 # BSGP 7030 assignment 2
 
-Jupyter notebooks and executable scripts to generate a simple linear regression from iven .csv data. Examples using salary as a function of years of experience data are included. 
+Jupyter notebooks and executable scripts to generate a simple linear regression from iven .csv data. Examples using salary as a function of years of experience data are included.
 
 ## Description
 
@@ -17,7 +17,7 @@ python linear_regression_python.py <FILENAME> <X_COL> <Y_COL>
 Rscript linear_regression_r.r <FILENAME> <X_COL> <Y_COL>
 ```
 
-- FILENAME is the path to a .csv file containing numerical data 
+- FILENAME is the path to a .csv file containing numerical data
 - X_COL is the exact name of the column in the .csv containing x-values
 - Y_COL is the exact name of the column in the .csv containing y-values
 
@@ -26,5 +26,5 @@ Rscript linear_regression_r.r <FILENAME> <X_COL> <Y_COL>
 
 ### Details
 
--   executable scripts print the model fit to the terminal and export a graph of the regression model and data.
--   files named `linear_regression_<lang>.<ext>` were written using the Canvas code and files named `linear_regression_<lang>_2.<ext>` were written without the code on Canvas.
+- executable scripts print the model fit to the terminal and export a graph of the regression model and data.
+- files named `linear_regression_<lang>.<ext>` were written using the Canvas code and files named `linear_regression_<lang>_2.<ext>` were written without the code on Canvas.

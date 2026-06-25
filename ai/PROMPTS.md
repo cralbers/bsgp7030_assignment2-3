@@ -19,27 +19,37 @@ This folder was built with Cursor Pro. The prompts below are the user requests u
 - `linear_regression_python.html`
 - `linear_regression_r.html`
 - `export_notebooks.sh`
+- `requirements.txt`
+- `environment.yml`
+
+This prompt essentially duplicated the files present in my manual folder because I had already accidentally read those files into the chat history previously. I didn't realize this until I reviewed the notebooks individually.
 
 ---
 
-## Prompt 2: Switch to conda
+## Prompt 2: Implement notebook plan
 
-> change the plan to use a conda enc invstead of a venv
+> Implement the plan as specified, it is attached for your reference. Do NOT edit the plan file itself.
 
-**Updated plan:** replace `.venv` with a conda environment defined in `environment.yml`.
+**Generated files:**
+
+- `linear_regression_python.ipynb` — load CSV, scatter plot, fit `LinearRegression`, overlay regression line, report R²/RMSE/MAE/residual SE
+- `linear_regression_r.ipynb` — same workflow using `read.csv()`, `ggplot2`, and `lm()`
+- `export_notebooks.sh` — executes both notebooks and exports `.html` outputs
+- `requirements.txt` — Python dependencies (pip fallback)
+- `linear_regression_python.html` — executed notebook export
+- `linear_regression_r.html` — executed notebook export
 
 ---
 
-## Prompt 3: Implement conda setup
+## Prompt 3: Use conda environment
 
-> do this
+> Use a conda env instead of a venv
 
-**Generated or updated files:**
+**Updated files:**
 
-- `environment.yml` — conda env `assignment2-ai` with Python, Jupyter, scikit-learn, and R packages
-- `export_notebooks.sh` — updated to run `nbconvert` using the conda env
-- Removed obsolete `.venv/` directory
-- Re-executed notebooks and regenerated `.ipynb` / `.html` outputs
+- `environment.yml` — defines the `assignment2-ai` conda env (Python, Jupyter, R, ggplot2, IRkernel)
+- `export_notebooks.sh` — updated to create/activate the conda env, register the R kernel if needed, and run `nbconvert` with a local `.jupyter_config` directory
+- `requirements.txt` — kept as a pip-only fallback; conda setup is preferred via `environment.yml`
 
 ---
 
@@ -70,21 +80,3 @@ Both scripts print model metrics to the terminal and save regression plots to th
 - `linear_regression_output_python.png`
 - `linear_regression_output_r.png`
 
----
-
-## Example commands
-
-**Notebooks (conda env):**
-
-```bash
-cd assignment2/ai
-conda activate assignment2-ai
-./export_notebooks.sh
-```
-
-**CLI scripts:**
-
-```bash
-python linear_regression_python.py regression_data.csv YearsExperience Salary
-Rscript linear_regression_r.r regression_data.csv YearsExperience Salary
-```

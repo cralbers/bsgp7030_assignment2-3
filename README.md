@@ -1,11 +1,12 @@
 # BSGP 7030 assignment 2
 
-Jupyter notebooks and executable scripts to generate a simple linear regression of salary data based on years of experience. 
+Jupyter notebooks and executable scripts to generate a simple linear regression from iven .csv data. Examples using salary as a function of years of experience data are included. 
 
 ## Description
 
--   Files in /manual were generated without the use of an AI agent
--   Files in /ai were generated with the aid of Cursor Pro
+- Files in /manual were generated without the use of an AI agent
+- Files in /ai were generated with the aid of Cursor Pro
+- REFLECTION.md
 
 ## Usage
 

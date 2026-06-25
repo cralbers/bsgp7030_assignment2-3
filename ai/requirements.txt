@@ -1,0 +1,10 @@
+# Prefer the conda environment defined in environment.yml:
+#   conda env create -f environment.yml
+#
+# Pip-only fallback (if conda is unavailable):
+pandas
+numpy
+matplotlib
+scikit-learn
+jupyter
+nbconvert

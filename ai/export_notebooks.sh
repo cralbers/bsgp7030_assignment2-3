@@ -10,7 +10,7 @@
 set -eo pipefail
 cd "$(dirname "$0")"
 
-ENV_NAME="assignment2-ai"
+ENV_NAME="assignment2"
 
 if ! conda env list | awk '{print $1}' | grep -qx "$ENV_NAME"; then
   conda env create -f environment.yml

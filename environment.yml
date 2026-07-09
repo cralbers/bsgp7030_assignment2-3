@@ -1,4 +1,4 @@
-name: assignment2-ai
+name: assignment2
 channels:
   - conda-forge
   - defaults

@@ -4,6 +4,8 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+from scipy.stats import linregress
+from sklearn.metrics import mean_squared_error, root_mean_squared_error
 
 if len(sys.argv) != 4:
     print("Usage: python linear_regression_python.py <filename> <x_column> <y_column>")
@@ -14,21 +16,41 @@ filename = sys.argv[1]
 x_col = sys.argv[2]
 y_col = sys.argv[3]
 
-# import csv file into pandas df
-# fit a linear regression model to the data (salary as a fx of years of experience)
-data = pd.read_csv(filename)
-model = LinearRegression()
-model.fit(data[[x_col]], data[[y_col]])
+# import csv file into pandas df and assign x and y variables
 
-# evaluate the model's performance
-r = model.score(data[[x_col]] ,data[[y_col]]) # calculate the R squared (fit)
-print(f'R^2 value for linear regression: {r}')
+df = pd.read_csv(filename)
+x = df[x_col]
+y = df[y_col]
 
-plt.scatter(data[[x_col]], data[[y_col]], color='purple')
-plt.plot(data[[x_col]], model.predict(data[[x_col]]), color='green')
-plt.title(f'{y_col} vs {x_col}')
-plt.xlabel(x_col)
-plt.ylabel(y_col)
-plt.savefig("linear_regression_python_output.png")
+# fit a linear regression model to the data (salary as a fx of years of experience) 
+# and calculate the slope, intercept, r value, MSE, and RMSE
+slope, intercept, r_value, p_value, std_err = linregress(x, y)
+y_pred = slope * x + intercept
+mse = mean_squared_error(y, y_pred)
+rmse = root_mean_squared_error(y, y_pred)
+
+# print the slope, intercept, r value, MSE, and RMSE to console
+print(f'Slope for linear regression: {slope:.3f}')
+print(f'Intercept for linear regression: {intercept:.3f}')
+# print(f'Standard error for linear regression: {std_err:.3f}')
+print(f'R value for linear regression: {r_value:.3f}')
+print(f'MSE for linear regression: {mse:.3f}')
+print(f'RMSE for linear regression: {rmse:.3f}')
+
+
+
+# graph the raw data and the calculated regression line
+# and save the plot to a file "linear_regression_python.png"
+plt.scatter(df['YearsExperience'], df['Salary'], color='purple') # graph data from original table
+plt.plot(df['YearsExperience'], y_pred, 'g-', label = "Fitted Line") # add in calculated linear regression using model previously generated
+plt.text(1.5, df['Salary'].max() - 5000,
+         f"y = {slope:.2f}x + {intercept:.2f}\n"
+         f"r = {r_value:.2f}\nMSE = {mse:.2f}",
+         fontsize=12)
+plt.title('Salary vs Experience')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.legend()
+plt.savefig('linear_regression_python.png')
 plt.show()
 

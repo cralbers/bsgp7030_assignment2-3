@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error
 
 
 def usage() -> None:
@@ -30,32 +30,28 @@ def main() -> None:
     y = df[y_col].values
     X = x.reshape(-1, 1)
 
+    # Fit ordinary least squares linear regression
     model = LinearRegression()
     model.fit(X, y)
 
-    intercept = model.intercept_
-    slope = model.coef_[0]
+    # Extract slope (m) and intercept (b) from the fitted line y = mx + b
+    intercept = model.intercept_  # b
+    slope = model.coef_[0]        # m
     y_pred = model.predict(X)
-    residuals = y - y_pred
-    n = len(y)
 
-    r2 = r2_score(y, y_pred)
-    rmse = np.sqrt(mean_squared_error(y, y_pred))
-    mae = mean_absolute_error(y, y_pred)
-    residual_se = np.sqrt(np.sum(residuals**2) / (n - 2))
+    # Pearson's r and mean squared error
+    r = np.corrcoef(x, y)[0, 1]
+    mse = mean_squared_error(y, y_pred)
 
-    print(f"Intercept: {intercept:.2f}")
-    print(f"Slope: {slope:.2f}")
-    print(f"Regression equation: {y_col} = {intercept:.2f} + {slope:.2f} * {x_col}")
-    print("Model Performance")
-    print("-----------------")
-    print(f"R-squared:              {r2:.4f}")
-    print(f"RMSE:                   {rmse:.2f}")
-    print(f"MAE:                    {mae:.2f}")
-    print(f"Residual Std. Error:    {residual_se:.2f}")
+    print(f"Slope (m):              {slope:.2f}")
+    print(f"Intercept (b):          {intercept:.2f}")
+    print(f"Pearson's r:            {r:.4f}")
+    print(f"Mean Squared Error:     {mse:.2f}")
+    print(f"Equation:               y = {slope:.2f}x + {intercept:.2f}")
 
     x_line = np.sort(x)
     y_line = model.predict(x_line.reshape(-1, 1))
+    annotation = f"y = {slope:.2f}x + {intercept:.2f}\nr = {r:.4f}"
 
     plt.figure(figsize=(8, 5))
     plt.scatter(x, y, color="steelblue", edgecolors="white", label="Observed")
@@ -63,7 +59,17 @@ def main() -> None:
     plt.xlabel(x_col)
     plt.ylabel(y_col)
     plt.title(f"{y_col} vs {x_col} with Regression Line")
-    plt.legend()
+    # Place equation and r in the upper-left corner of the plot
+    plt.text(
+        0.05,
+        0.95,
+        annotation,
+        transform=plt.gca().transAxes,
+        verticalalignment="top",
+        fontsize=11,
+        bbox=dict(boxstyle="round", facecolor="white", alpha=0.85, edgecolor="gray"),
+    )
+    plt.legend(loc="lower right")
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
 

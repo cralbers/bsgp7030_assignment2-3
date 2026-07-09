@@ -1,4 +1,4 @@
-# BSGP 7030 assignment 2
+# BSGP 7030 assignment 2-3
 
 Jupyter notebooks and executable scripts to generate a simple linear regression from given `.csv` data. Examples using salary as a function of years of experience are included.
 

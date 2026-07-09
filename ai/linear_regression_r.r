@@ -23,33 +23,43 @@ for (column in c(x_col, y_col)) {
   }
 }
 
+# Fit ordinary least squares
 model <- lm(as.formula(paste(y_col, "~", x_col)), data = df)
 
-intercept <- coef(model)[1]
-slope <- coef(model)[2]
+# Extract intercept (b) and slope (m) from the fitted line y = mx + b
+intercept <- coef(model)[1]  # b
+slope <- coef(model)[2]      # m
 y <- df[[y_col]]
 y_pred <- predict(model, df)
-residuals <- y - y_pred
-n <- length(y)
 
-r2 <- summary(model)$r.squared
-rmse <- sqrt(mean((y - y_pred)^2))
-mae <- mean(abs(y - y_pred))
-residual_se <- sqrt(sum(residuals^2) / (n - 2))
+# Pearson's r and mean squared error
+r <- cor(df[[x_col]], df[[y_col]])
+mse <- mean((y - y_pred)^2)
 
-cat(sprintf("Intercept: %.2f\n", intercept))
-cat(sprintf("Slope: %.2f\n", slope))
-cat(sprintf("Regression equation: %s = %.2f + %.2f * %s\n", y_col, intercept, slope, x_col))
-cat("Model Performance\n")
-cat("-----------------\n")
-cat(sprintf("R-squared:              %.4f\n", r2))
-cat(sprintf("RMSE:                   %.2f\n", rmse))
-cat(sprintf("MAE:                    %.2f\n", mae))
-cat(sprintf("Residual Std. Error:    %.2f\n", residual_se))
+cat(sprintf("Slope (m):              %.2f\n", slope))
+cat(sprintf("Intercept (b):          %.2f\n", intercept))
+cat(sprintf("Pearson's r:            %.4f\n", r))
+cat(sprintf("Mean Squared Error:     %.2f\n", mse))
+cat(sprintf("Equation:               y = %.2fx + %.2f\n", slope, intercept))
+
+# Annotation text: fitted equation and correlation
+annotation <- sprintf("y = %.2fx + %.2f\nr = %.4f", slope, intercept, r)
 
 plot <- ggplot(df, aes(x = .data[[x_col]], y = .data[[y_col]])) +
   geom_point(color = "steelblue", size = 3) +
   geom_abline(intercept = intercept, slope = slope, color = "#DC143C", linewidth = 1) +
+  annotate(
+    "label",
+    x = min(df[[x_col]]),
+    y = max(df[[y_col]]),
+    label = annotation,
+    hjust = 0,
+    vjust = 1,
+    size = 3.8,
+    fill = "white",
+    linewidth = 0.3,
+    alpha = 0.9
+  ) +
   labs(
     x = x_col,
     y = y_col,
